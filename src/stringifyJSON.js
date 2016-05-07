@@ -10,6 +10,10 @@ var stringifyJSON = function(obj) {
   // create some order to return the values as
 
   // Base Cases/Minimal Values
+  // Null, Undefined
+  if ((obj === null) || (obj ==== undefined) || (obj === '')) {
+    return '';
+  }
   // Boolean, Number
   if ((typeof obj === 'boolean') || (typeof obj === 'number')) {
   	return ('' + obj);
@@ -47,7 +51,18 @@ var stringifyJSON = function(obj) {
   // Object
   // No need to check now, as the last result would be a base object
   // var result handles string as it is finalized
+  var result;
   // For-In loop to make sure all keys are handled
-    // update result with: recurse key and value at key
-  // return result
+  for (var key in obj) {
+    // check if result has been started
+    if (result === undefined) {
+      // if not, update result with: open curly brace, recurse key, and recurse value at key
+      result = '{' + stringifyJSON(key) + ':' + stringifyJSON(obj[key]);
+    } else {
+      // if so, update result with: comma, recurse key, and recurse value at key
+      result = result + ', '+ stringifyJSON(key) + ':' + stringifyJSON(obj[key]);
+    }
+  }
+  // return result with closing curly brace
+  return result + '}';
 };
