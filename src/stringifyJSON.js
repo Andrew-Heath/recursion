@@ -7,7 +7,7 @@ var stringifyJSON = function(obj) {
   // Base Cases/Minimal Values
   // Undefined
   if (obj === undefined) {
-    return 'undefined';
+    return '';
   }
   // Null
   if (obj === null) {
