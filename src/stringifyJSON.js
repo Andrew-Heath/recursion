@@ -44,7 +44,10 @@ var stringifyJSON = function(obj) {
     }
   }
     
-
-
   // Object
+  // No need to check now, as the last result would be a base object
+  // var result handles string as it is finalized
+  // For-In loop to make sure all keys are handled
+    // update result with: recurse key and value at key
+  // return result
 };
