@@ -26,6 +26,10 @@ var stringifyJSON = function(obj) {
   // Array
   // Checks if Array
   if (Array.isArray(obj) === true) {
+    // Clear any undefined values
+     while ((obj[0] === undefined) && (obj.length !== 0)) {
+      obj.shift();
+    }
     // Pull Arg2, which function passes within self to handle if
     //   currently within an array
     index = arguments[1];
@@ -33,17 +37,17 @@ var stringifyJSON = function(obj) {
     if (index === undefined) {
       // if in an unstarted Array: list open bracket, recurse
       //   index 0, recurse array with index 1
-      return ('[' + stringifyJSON(obj[0]) + stringifyJSON(obj, 1));
+      return ('[' + stringifyJSON(obj[0]) + stringifyJSON(obj, 1) + ']');
     } else {
       // If in a started Array, find if it is at end or not
       if (index < (obj.length - 1)) {
         // If middle: recurse index value and recurse array with
         //   next index 
         return (', ' + stringifyJSON(obj[index]) + stringifyJSON(obj, (index + 1)));
-      } else if (index >= (obj.length - 1)) {
+      }/* else if (index >= (obj.length - 1)) {
         // If end or past end: recurse value and list end bracket
         return (', ' + stringifyJSON(obj[index]) + ']');
-      }
+      }*/
     }
   }
     
