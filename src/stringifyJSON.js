@@ -11,7 +11,7 @@ var stringifyJSON = function(obj) {
 
   // Base Cases/Minimal Values
   // Boolean, Number
-  if (typeof obj === 'boolean' || typeof obj === 'number') {
+  if ((typeof obj === 'boolean') || (typeof obj === 'number')) {
   	return ('' + obj);
   }
   // String
@@ -22,15 +22,28 @@ var stringifyJSON = function(obj) {
   // Recursive Cases
   // Array
   // Checks if Array
+  if (Array.isArray(obj) === true) {
     // Pull Arg2, which function passes within self to handle if
     //   currently within an array
+    index = arguments[1];
     // Checks if currently within the array
-    // if in an unstarted Array: list open bracket, recurse
-    //   index 0, recurse array with index 1
-    // If in a started Array, find if it is at end or not
-      // If middle: recurse index value and recurse array with
-      //   next index 
-      // If end: recurse value and list end bracket
+    if (index === undefined) {
+      // if in an unstarted Array: list open bracket, recurse
+      //   index 0, recurse array with index 1
+      return ('[' + stringifyJSON(obj[0]) + stringifyJSON(obj, 1));
+    } else {
+      // If in a started Array, find if it is at end or not
+      if (index < (obj.length - 1)) {
+        // If middle: recurse index value and recurse array with
+        //   next index 
+        return (', ' + stringifyJSON(obj[index]) + stringifyJSON(obj, (index + 1)))
+      } else if (index >== (obj.length - 1)) {
+        // If end or past end: recurse value and list end bracket
+        return (']');
+      }
+    }
+  }
+    
 
 
   // Object
