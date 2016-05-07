@@ -30,6 +30,10 @@ var stringifyJSON = function(obj) {
      while ((obj[0] === undefined) && (obj.length !== 0)) {
       obj.shift();
     }
+    // Check if array is empty and return an empty arry if so
+    if (obj.length === 0){
+      return '[]';
+    }
     // Pull Arg2, which function passes within self to handle if
     //   currently within an array
     index = arguments[1];
@@ -37,33 +41,37 @@ var stringifyJSON = function(obj) {
     if (index === undefined) {
       // if in an unstarted Array: list open bracket, recurse
       //   index 0, recurse array with index 1
-      return ('[' + stringifyJSON(obj[0]) + stringifyJSON(obj, 1) + ']');
+      return ('[' + stringifyJSON(obj[0]) + stringifyJSON(obj, 1));
     } else {
       // If in a started Array, find if it is at end or not
-      if (index < (obj.length - 1)) {
+      if (index <= (obj.length - 1)) {
         // If middle: recurse index value and recurse array with
         //   next index 
-        return (', ' + stringifyJSON(obj[index]) + stringifyJSON(obj, (index + 1)));
-      }/* else if (index >= (obj.length - 1)) {
+        // Check if val at index is undefiend
+        if (obj[index] === undefined) {
+          return ('' + stringifyJSON(obj, (index + 1)));
+        }
+        return (',' + stringifyJSON(obj[index]) + stringifyJSON(obj, (index + 1)));
+      } else if (index > (obj.length - 1)) {
         // If end or past end: recurse value and list end bracket
-        return (', ' + stringifyJSON(obj[index]) + ']');
-      }*/
+        return (']');
+      }
     }
   }
     
   // Object
   // No need to check now, as the last result would be a base object
   // var result handles string as it is finalized
-  var result;
+  var result = '{';
   // For-In loop to make sure all keys are handled
   for (var key in obj) {
     // check if result has been started
-    if (result === undefined) {
+    if ((result === '{') && (obj[key] !== undefined) && (typeof obj[key] !== "function")) {
       // if not, update result with: open curly brace, recurse key, and recurse value at key
-      result = ('{' + stringifyJSON(key) + ':' + stringifyJSON(obj[key]));
-    } else {
+      result = (result + stringifyJSON(key) + ':' + stringifyJSON(obj[key]));
+    } else if ((obj[key] !== undefined) && (typeof obj[key] !== "function")) {
       // if so, update result with: comma, recurse key, and recurse value at key
-      result = (result + ', '+ stringifyJSON(key) + ':' + stringifyJSON(obj[key]));
+      result = (result + ','+ stringifyJSON(key) + ':' + stringifyJSON(obj[key]));
     }
   }
   // return result with closing curly brace
