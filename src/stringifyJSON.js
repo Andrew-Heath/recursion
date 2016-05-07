@@ -4,15 +4,14 @@
 // but you don't so you're going to write it from scratch:
 
 var stringifyJSON = function(obj) {
-  // discern type of value passed in
-  // figure out keys
-  // figure out values attached to keys
-  // create some order to return the values as
-
   // Base Cases/Minimal Values
-  // Null, Undefined
-  if ((obj === null) || (obj ==== undefined) || (obj === '')) {
-    return '';
+  // Undefined
+  if (obj === undefined) {
+    return 'undefined';
+  }
+  // Null
+  if (obj === null) {
+    return 'null';
   }
   // Boolean, Number
   if ((typeof obj === 'boolean') || (typeof obj === 'number')) {
@@ -40,10 +39,10 @@ var stringifyJSON = function(obj) {
       if (index < (obj.length - 1)) {
         // If middle: recurse index value and recurse array with
         //   next index 
-        return (', ' + stringifyJSON(obj[index]) + stringifyJSON(obj, (index + 1)))
-      } else if (index >== (obj.length - 1)) {
+        return (', ' + stringifyJSON(obj[index]) + stringifyJSON(obj, (index + 1)));
+      } else if (index >= (obj.length - 1)) {
         // If end or past end: recurse value and list end bracket
-        return (']');
+        return ']';
       }
     }
   }
@@ -57,12 +56,12 @@ var stringifyJSON = function(obj) {
     // check if result has been started
     if (result === undefined) {
       // if not, update result with: open curly brace, recurse key, and recurse value at key
-      result = '{' + stringifyJSON(key) + ':' + stringifyJSON(obj[key]);
+      result = ('{' + stringifyJSON(key) + ':' + stringifyJSON(obj[key]));
     } else {
       // if so, update result with: comma, recurse key, and recurse value at key
-      result = result + ', '+ stringifyJSON(key) + ':' + stringifyJSON(obj[key]);
+      result = (result + ', '+ stringifyJSON(key) + ':' + stringifyJSON(obj[key]));
     }
   }
   // return result with closing curly brace
-  return result + '}';
+  return (result + '}');
 };
