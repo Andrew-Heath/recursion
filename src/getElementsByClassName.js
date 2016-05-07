@@ -7,19 +7,40 @@
 var getElementsByClassName = function(className) {
   // Set body to what to recurse through
   if (arguments[1] === undefined) {
-    var body = document.body;
+    var node = document.body.childNodes;
   } else {
-    var body = arguments[1];
+    var node = arguments[1];
   }
 
   // Base Case
   // Empty Body
-  if (body === []) {
+  if (node === undefined) {
     return;
   }
 
-  // Recurse Case
-  var i = arguments[2];
+  // Set result to current result
+  if (arguments[2] === undefined){
+    var result = [];
+  } else {
+    var result = arguments[2];
+  }
   
+  // Recurse Case
+  // Loop through all the discovered nodes
+  for (var nodeIndex = 0; (node.length !== undefined) && (nodeIndex < node.length); nodeIndex++) {
+    // check if node has class
+    if (node[nodeIndex].classList !== []) {
+      for (var classIndex = 0; (node[nodeIndex].classList !== undefined) && (classIndex < node[nodeIndex].classList.length); classIndex++) {
+        if (node[nodeIndex].classList[classIndex] === className) {
+          // add it to result if it does
+          result.push(node[i]);
+        }
+      }
+    }
+    // recurse a level down
+    getElementsByClassName(className, node.childNodes, result);
+  }
+
+  return result;
 
 };
