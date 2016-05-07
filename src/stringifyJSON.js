@@ -42,7 +42,7 @@ var stringifyJSON = function(obj) {
         return (', ' + stringifyJSON(obj[index]) + stringifyJSON(obj, (index + 1)));
       } else if (index >= (obj.length - 1)) {
         // If end or past end: recurse value and list end bracket
-        return ']';
+        return (', ' + stringifyJSON(obj[index]) + ']');
       }
     }
   }
