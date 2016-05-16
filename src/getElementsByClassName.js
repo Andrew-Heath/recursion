@@ -35,12 +35,10 @@ var getElementsByClassName = function(className) {
 
   // Recurse Case
   // Loop through all the discovered nodes
-  //if (node.length !== undefined) {
-    for (var nodeIndex = 0; nodeIndex < node.childNodes.length; nodeIndex++) {
-      // recurse a level down
-      getElementsByClassName(className, node.childNodes[nodeIndex], result);
-    }
-  //}
+  for (var nodeIndex = 0; nodeIndex < node.childNodes.length; nodeIndex++) {
+    // recurse a level down
+    getElementsByClassName(className, node.childNodes[nodeIndex], result);
+  }
 
   return result;
 
